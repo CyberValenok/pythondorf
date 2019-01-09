@@ -10,11 +10,13 @@ def redirhome():
     return redirect(url_for('home'))
 
 @app.route('/home')
-def home(username):
-    if not session.get('username'):
-        return render_template('home.html')
-    else:
-        return redirect(url_for('userpage'))
+def home(username=None):
+    if session.get('username'):
+        username = session['username']
+        flash('Your personal page, Tik-toha')
+        return redirect(url_for('userpage', username=username))
+
+    return render_template('home.html')
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -32,7 +34,7 @@ def login():
         user = User.query.filter_by(username=username).first()
 
         if user and bcrypt.check_password_hash(user.password, password):
-            session['username'] = True
+            session['username'] =  username
             return redirect(url_for('userpage', username=username))
         else:
             flash('PRIVET POSHEL NAHUI, account does not exist!')
