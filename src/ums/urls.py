@@ -10,11 +10,15 @@ def redirhome():
     return redirect(url_for('home'))
 
 @app.route('/home')
-def home():
-    return render_template('home.html')
+def home(username):
+    if not session.get('username'):
+        return render_template('home.html')
+    else:
+        return redirect(url_for('userpage'))
 
 @app.route('/login', methods=['GET','POST'])
 def login():
+    #if not session.get(username)
     if request.method == 'POST':
         username=request.form['login']
         password=request.form['password']
@@ -28,7 +32,7 @@ def login():
         user = User.query.filter_by(username=username).first()
 
         if user and bcrypt.check_password_hash(user.password, password):
-            session[username] = True
+            session['username'] = True
             return redirect(url_for('userpage', username=username))
         else:
             flash('PRIVET POSHEL NAHUI, account does not exist!')
@@ -37,13 +41,15 @@ def login():
 
 @app.route('/home/<username>/')
 def userpage(username):
-    if not session.get(username):
-        abort(401)
+    if not session.get('username'):
+        return redirect(url_for('login'))
     return render_template('userpage.html', username=username)
 
-#@app.route('/logout/<username>')
-#def logout(username):
-#    session.pop(username, none)
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    flash("TOHA, successfully logout")
+    return redirect(url_for('home'))
 
 
 @app.route('/signup', methods=['GET', 'POST', 'PUT', 'DELETE'])

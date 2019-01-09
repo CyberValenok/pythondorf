@@ -10,8 +10,12 @@
   <dir>
     JOPA:
     <a href={{ url_for('home')}}> Home</a>
-    <a href={{ url_for('login')}}> Login</a>
-    <a href={{ url_for('users')}}> Sign up</a>
+    {% if not session.get('username') %}
+      <a href={{ url_for('login')}}> Login</a>
+      <a href={{ url_for('users')}}> Sign up</a>
+    {% else %}
+      <a href={{ url_for('logout')}}> Logout</a>
+    {% endif %}
   </dir>
   <hr>
 {%block content%}
