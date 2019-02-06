@@ -1,0 +1,120 @@
+body {
+     background-image: url('../images/ttbg.jpeg');
+     background-position: center top;
+     background-repeat: no-repeat;
+     /*background-size: cover;*/
+     color: #fff;
+     font-family: Arial, sans-serif;
+     font-size: 14px;
+}
+@font-face{
+     font-family: 'Roboto';
+     src: url('../fonts/Roboto-Light.ttf') format('truetype');
+}
+@font-face{
+     font-family: 'RobotoItalic';
+     src: url('../fonts/Roboto-LightItalic.ttf') format('truetype');
+}
+@font-face {
+     font-family: 'RobotoThinItalic';
+     src:url('../fonts/Roboto-ThinItalic.ttf') format('truetype');
+}
+#container {
+
+     width: 100%;
+     height: 100%;
+
+}
+
+.navigation {
+     position: absolute;
+     left: 20px;
+     right: 20px;
+     top: 10px;
+     background-color: rgba(255, 255, 255, 1);
+     border-radius: 5px;
+     weight: 100%;
+     height: 70px;
+     font-family: 'Roboto';
+     font-size: 40px;
+     line-height: 1.5;
+     box-shadow: 0px 0px 6px 0px #000000;
+
+     }
+
+.button_static{
+  float:left;
+  display: inline-block
+}
+.button_not{
+  margin-right: 25px;
+  float:right;
+  display: inline-block
+}
+
+.button_yes{
+  margin-right: 25px;
+  float:right;
+  display: inline-block
+}
+
+#logo-tt {
+     height: 100%;
+     weight: auto;
+     float:left;
+
+}
+
+a{
+     color: #000;
+     padding: 2px;
+     text-decoration: none;
+     }
+a:visited {
+     text-decoration: none;
+     color: #000;
+     }
+a:hover {
+     text-decoration: none;
+     color: #000;
+     background: #fff;
+     border-bottom: 3px outset lightblue;
+     }
+
+#content {
+     position: absolute;
+     top: 90px;
+     left:10%;
+     right: 10%;
+     bottom:70px;
+     weight: 100%;
+     background-color: rgba(255, 255, 255, 0.9);
+     border-radius: 5px;
+     box-shadow: 0px 0px 6px 0px #000000;
+     font-family: 'RobotoThinItalic';
+     color: #000;
+
+
+}
+
+#clear {
+     clear: both;
+}
+
+#footer {
+     position: absolute;
+     left: 20px;
+     right: 20px;
+     bottom: 10px;
+     text-align: center;
+     background-color: rgba(255, 255, 255, 1);
+     border-radius: 5px;
+     weight: 100%;
+     height: 50px;
+     font-family: 'Roboto';
+     font-size: 20px;
+     color: #000;
+     line-height: 2;
+     box-shadow: 0px 0px 6px 0px #000000;
+
+}

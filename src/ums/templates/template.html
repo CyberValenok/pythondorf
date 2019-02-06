@@ -4,30 +4,52 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>Tik-Toha</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pagestyle.css')}}"/>
+  {%block head%}
+  {%endblock%}
+
 </head>
 <body>
-  <dir>
-    JOPA:
-    <a href={{ url_for('home')}}> Home</a>
-    {% if not session.get('username') %}
-      <a href={{ url_for('login')}}> Login</a>
-      <a href={{ url_for('users')}}> Sign up</a>
-    {% else %}
-      <a href={{ url_for('logout')}}> Logout</a>
-    {% endif %}
-  </dir>
-  <hr>
-{%block content%}
-{%endblock%}
-{% with messages = get_flashed_messages()%}
-  {%if messages%}
-    {% for message in messages %}
-    <ul class=messages>
-      <font color="red">{{message}}</font>
-    </ul>
-    {% endfor %}
-  {%endif%}
-{% endwith %}
+  <div id="container">
+    <div class="navigation">
+        <img id="logo-tt" src="{{url_for('static', filename='images/tiktoha.png')}}">
+          <div class="button_static">
+            <a href={{ url_for('home')}}> Home</a>
+            <a href={{ url_for('userlist')}}> List of user</a>
+          </div>
+          {% if not session.get('username') %}
+          <div class="button_not">
+            <a href={{ url_for('login')}}> Login</a>
+            <a href={{ url_for('users')}}> Sign up</a>
+          </div>
+          {% else %}
+          <div class="button_yes">
+            <a href={{ url_for('users')}} >Create another account</a>
+            <a href={{ url_for('logout')}}> Logout</a>
+          </div>
+          {% endif %}
+
+      </div>
+
+  <div id="content">
+  {%block content%}
+  {%endblock%}
+  {% with messages = get_flashed_messages()%}
+    {%if messages%}
+      {% for message in messages %}
+        <ul class=messages>
+          <font color="red">{{message}}</font>
+        </ul>
+      {% endfor %}
+    {%endif%}
+    {% endwith %}
+  </div>
+  <div id="clear">
+  </div>
+  <div id="footer">
+  Made by Sanya 2k18
+  </div>
+</div>
 </body>
 </html>

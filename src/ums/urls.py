@@ -2,8 +2,9 @@ from ums import app
 from ums import db
 from ums.models import User
 from flask import abort, request, render_template, redirect, url_for, session, flash
+from flask import jsonify
 from ums import bcrypt
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, OperationalError
 
 @app.route('/')
 def redirhome():
@@ -15,12 +16,12 @@ def home(username=None):
         username = session['username']
         flash('Your personal page, Tik-toha')
         return redirect(url_for('userpage', username=username))
-
     return render_template('home.html')
 
 @app.route('/login', methods=['GET','POST'])
 def login():
-    #if not session.get(username)
+    if session.get("username"):
+        return redirect(url_for('home'))
     if request.method == 'POST':
         username=request.form['login']
         password=request.form['password']
@@ -30,9 +31,11 @@ def login():
         else:
             username=username.strip(' ')
             password=password.strip(' ')
-
-        user = User.query.filter_by(username=username).first()
-
+        try:
+            user = User.query.filter_by(username=username).first()
+        except OperationalError:
+            flash("DataBase does not created, toha. Create new users to activate DB.")
+            return redirect(url_for('users'))
         if user and bcrypt.check_password_hash(user.password, password):
             session['username'] =  username
             return redirect(url_for('userpage', username=username))
@@ -53,7 +56,6 @@ def logout():
     flash("TOHA, successfully logout")
     return redirect(url_for('home'))
 
-
 @app.route('/signup', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def users():
     if request.method== 'POST':
@@ -61,7 +63,7 @@ def users():
         password=request.form['password'].strip(' ')
         if not (username and password):
             flash('Field(s) is empty!')
-
+            return redirect(url_for('users'))
         pass_hash=bcrypt.generate_password_hash(password)
 
         user=User(username=username, password=pass_hash)
@@ -70,8 +72,15 @@ def users():
         try:
             db.session.commit()
         except IntegrityError:
-            flash("Toha, ne obmanyvai! Account {username} not been created".format(username=username))
+            flash("Toha, ne obmanyvai! Account {username} been created".format(username=username))
             return redirect(url_for("users"))
+        if session.get('username'):
+            flash('Account successfull created!')
+            return redirect(url_for('home'))
         flash("KRASAVA!!!!!!!!, zahodi")
         return redirect(url_for("login"))
     return render_template('registration.html')
+
+@app.route('/userlist')
+def userlist():
+    return render_template('userlist.html')
