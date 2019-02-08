@@ -47,7 +47,11 @@ def login():
 @app.route('/home/<username>/')
 def userpage(username):
     if not session.get('username'):
+        flash('I tupa dont figured out the 404 pages')
         return redirect(url_for('login'))
+    if not session.get('username')==username:
+        flash('Want to check me for quality? Believe me, you are not the first, and probably not the last.')
+        return redirect(url_for('home'))
     return render_template('userpage.html', username=username)
 
 @app.route('/logout')
@@ -83,4 +87,8 @@ def users():
 
 @app.route('/userlist')
 def userlist():
-    return render_template('userlist.html')
+    return render_template('userlist.html',userlist=User.query.all())
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html')
